@@ -1,0 +1,81 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+
+.taskSuper {
+    overflow: auto;
+}
+
+.taskColumn {
+    min-width: 200px;
+    min-height: 500px;
+    text-align: center;
+    background-color: var(--taskcolumn-bg);
+    border-radius: 20px;
+    margin: 20px;
+}
+
+.buttons {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    z-index: 1000;
+}
+
+body {
+    background-color: var(--scheme-main);
+    color: var(--text);
+}
+
+.box {
+    background-color: var(--scheme-main-bis);
+}
+
+.title {
+    color: var(--text-strong);
+}
+
+.subtitle {
+    color: var(--text-light);
+}
+
+.button {
+    background-color: var(--scheme-main-ter);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+.button.is-primary {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+:root {
+    --scheme-main: hsl(0, 0%, 100%);
+    --background: hsl(0, 0%, 96%);
+    --text: hsl(0, 0%, 4%);
+    --text-strong: hsl(0, 0%, 21%);
+    --border: hsl(0, 0%, 86%);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --scheme-main: hsl(0, 0%, 11%);
+        --background: hsl(0, 0%, 14%);
+        --text: hsl(0, 0%, 71%);
+        --text-strong: hsl(0, 0%, 93%);
+        --border: hsl(0, 0%, 24%);
+    }
+}
+
+.is-dark-mode {
+    --scheme-main: hsl(0, 0%, 11%);
+    --scheme-main-bis: hsl(0, 0%, 13%);
+    --scheme-main-ter: hsl(0, 0%, 15%);
+    --background: hsl(0, 0%, 14%);
+    --text: hsl(0, 0%, 71%);
+    --text-light: hsl(0, 0%, 60%);
+    --text-strong: hsl(0, 0%, 93%);
+    --border: hsl(0, 0%, 24%);
+    --primary: hsl(171, 100%, 41%);
+    --primary-light: hsl(171, 100%, 15%);
+    --taskcolumn-bg: var(--scheme-main-bis);
+}
