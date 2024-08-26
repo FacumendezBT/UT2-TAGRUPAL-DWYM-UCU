@@ -1,11 +1,73 @@
 @import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --scheme-main: hsl(0, 0%, 100%);
+    --scheme-main-bis: hsl(0, 0%, 98%);
+    --scheme-main-ter: hsl(0, 0%, 96%);
+    --background: hsl(0, 0%, 96%);
+    --text: hsl(0, 0%, 4%);
+    --text-light: hsl(0, 0%, 29%);
+    --text-strong: hsl(0, 0%, 21%);
+    --border: hsl(0, 0%, 86%);
+    --primary: hsl(171, 100%, 41%);
+    --primary-light: hsl(171, 100%, 96%);
+    --taskcolumn-bg: var(--scheme-main-ter);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --scheme-main: hsl(0, 0%, 11%);
+        --scheme-main-bis: hsl(0, 0%, 13%);
+        --scheme-main-ter: hsl(0, 0%, 15%);
+        --background: hsl(0, 0%, 14%);
+        --text: hsl(0, 0%, 71%);
+        --text-light: hsl(0, 0%, 60%);
+        --text-strong: hsl(0, 0%, 93%);
+        --border: hsl(0, 0%, 24%);
+        --primary: hsl(171, 100%, 41%);
+        --primary-light: hsl(171, 100%, 15%);
+        --taskcolumn-bg: var(--scheme-main-bis);
+    }
+}
+
+[data-theme="dark"],
+.theme-dark,
+.is-dark-mode {
+    --scheme-main: hsl(0, 0%, 11%);
+    --scheme-main-bis: hsl(0, 0%, 13%);
+    --scheme-main-ter: hsl(0, 0%, 15%);
+    --background: hsl(0, 0%, 14%);
+    --text: hsl(0, 0%, 71%);
+    --text-light: hsl(0, 0%, 60%);
+    --text-strong: hsl(0, 0%, 93%);
+    --border: hsl(0, 0%, 24%);
+    --primary: hsl(171, 100%, 41%);
+    --primary-light: hsl(171, 100%, 15%);
+    --taskcolumn-bg: var(--scheme-main-bis);
+}
+
+[data-theme="light"],
+.theme-light {
+    --scheme-main: hsl(0, 0%, 100%);
+    --scheme-main-bis: hsl(0, 0%, 98%);
+    --scheme-main-ter: hsl(0, 0%, 96%);
+    --background: hsl(0, 0%, 96%);
+    --text: hsl(0, 0%, 4%);
+    --text-light: hsl(0, 0%, 29%);
+    --text-strong: hsl(0, 0%, 21%);
+    --border: hsl(0, 0%, 86%);
+    --primary: hsl(171, 100%, 41%);
+    --primary-light: hsl(171, 100%, 96%);
+    --taskcolumn-bg: var(--scheme-main-ter);
+}
 
 .taskSuper {
     overflow: auto;
 }
 
 .taskColumn {
-    min-width: 200px;
+    min-width: 350px;
     min-height: 500px;
     text-align: center;
     background-color: var(--taskcolumn-bg);
@@ -18,11 +80,13 @@
     bottom: 0px;
     right: 0px;
     z-index: 1000;
+    padding-right: 20px;
 }
 
 body {
     background-color: var(--scheme-main);
     color: var(--text);
+    font-family: "Raleway", sans-serif;
 }
 
 .box {
@@ -31,6 +95,10 @@ body {
 
 .title {
     color: var(--text-strong);
+}
+
+h1{
+    padding-top: 1px;
 }
 
 .subtitle {
@@ -48,34 +116,12 @@ body {
     color: #fff;
 }
 
-:root {
-    --scheme-main: hsl(0, 0%, 100%);
-    --background: hsl(0, 0%, 96%);
-    --text: hsl(0, 0%, 4%);
-    --text-strong: hsl(0, 0%, 21%);
-    --border: hsl(0, 0%, 86%);
-}
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --scheme-main: hsl(0, 0%, 11%);
-        --background: hsl(0, 0%, 14%);
-        --text: hsl(0, 0%, 71%);
-        --text-strong: hsl(0, 0%, 93%);
-        --border: hsl(0, 0%, 24%);
+@media ((min-width: 768px) and (max-width: 1023px)){
+    .taskSuper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap; 
+        justify-content: flex-start;
     }
-}
-
-.is-dark-mode {
-    --scheme-main: hsl(0, 0%, 11%);
-    --scheme-main-bis: hsl(0, 0%, 13%);
-    --scheme-main-ter: hsl(0, 0%, 15%);
-    --background: hsl(0, 0%, 14%);
-    --text: hsl(0, 0%, 71%);
-    --text-light: hsl(0, 0%, 60%);
-    --text-strong: hsl(0, 0%, 93%);
-    --border: hsl(0, 0%, 24%);
-    --primary: hsl(171, 100%, 41%);
-    --primary-light: hsl(171, 100%, 15%);
-    --taskcolumn-bg: var(--scheme-main-bis);
 }

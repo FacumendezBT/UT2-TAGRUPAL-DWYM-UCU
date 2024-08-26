@@ -10,7 +10,7 @@
 
 <body>
     <div class="container">
-        <h3 class="title is-3 has-text-centered">GESTOR DE TAREAS</h3>
+        <h1 class="title is-3 has-text-centered">GESTOR DE TAREAS</h3>
         <div class="buttons level-right">
             <button id="darkModeToggle" class="button is-light"> 🌙 </button>
             <button id="newTask" class="button is-primary">+</button>
@@ -18,25 +18,25 @@
         <div class="columns taskSuper">
             <div class="column taskColumn" id="backlog">
                 <h3 class="title is-5">Backlog</h2>
-                    <div class="taskBody">
+                    <div class="taskBody ondragover="onDragOver(event);"">
                     </div>
             </div>
             <div class="column taskColumn" id="toDo">
                 <h3 class="title is-5">To Do</h2>
-                    <div class="taskBody">
+                    <div class="taskBody ondragover="onDragOver(event);"">
                     </div>
             </div>
             <div class="column taskColumn" id="inProgress">
                 <h3 class="title is-5">In Progress</h2>
-                    <div class="taskBody"></div>
+                    <div class="taskBody ondragover="onDragOver(event);""></div>
             </div>
             <div class="column taskColumn" id="blocked">
                 <h3 class="title is-5">Blocked</h2>
-                    <div class="taskBody"></div>
+                    <div class="taskBody ondragover="onDragOver(event);""></div>
             </div>
             <div class="column taskColumn" id="done">
                 <h3 class="title is-5">Done</h2>
-                    <div class="taskBody"></div>
+                    <div class="taskBody ondragover="onDragOver(event);""></div>
             </div>
         </div>
         <div id="modal-container"></div>
@@ -44,10 +44,10 @@
     <script src="js/createTask.js"></script>
     <script src="js/task.js"></script>
     <script src="js/script.js"></script>
-    <script src="js/AbrirTarea.js"></script>
     <script src="js/darkMode.js"></script>
+    <script src="js/DragAndDrop.js"></script>
 </body>
 
 </html>
 
-<!-- /*http://10.13.44.35:5500/index.html*/ -->
+<!-- /http://10.13.44.35:5500*/ -->

@@ -11,25 +11,28 @@ class CreateTask {
 
     toHTML() {
         return `
-            <div class="modal">
+            <div class="modal"> 
                 <div class="modal-background"></div>
                 <div class="modal-card">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Crear tarea</p>
                         <button class="delete" aria-label="close" id="cancelButton"></button>
+                       
                     </header>
                     <section class="modal-card-body">
                         <form>
                             <div class="field">
                                 <label class="label">Título</label>
                                 <div class="control">
-                                    <input class="input" type="text" placeholder="Título de la tarea">
+                                    <input class="input"  type="text" placeholder="Título de la tarea" id="taskTitle">
+                                    <p class="help is-danger is-hidden">El título no puede estar vacío</p>
                                 </div>
                             </div>
                             <div class="field">
                                 <label class="label">Descripción</label>
                                 <div class="control">
-                                    <textarea class="textarea" placeholder="Descripción de la tarea"></textarea>
+                                    <textarea class="textarea" placeholder="Descripción de la tarea" id="taskDesc"></textarea>
+                                    <p class="help is-danger is-hidden">Debe insertar una descripción</p>
                                 </div>
                             </div>
 
@@ -37,7 +40,7 @@ class CreateTask {
                                 <label class="label">Asignado</label>
                                 <div class="control">
                                     <div class="select">
-                                        <select>
+                                        <select id="taskAssigned">
                                             ${this.generateOptions(this.personas)}
                                         </select>
                                     </div>
@@ -48,7 +51,7 @@ class CreateTask {
                                 <label class="label">Prioridad</label>
                                 <div class="control">
                                     <div class="select">
-                                        <select>
+                                        <select id="taskPriority">
                                             ${this.generateOptions(this.prioridades)}
                                         </select>
                                     </div>
@@ -59,7 +62,7 @@ class CreateTask {
                                 <label class="label">Estado</label>
                                 <div class="control">
                                     <div class="select">
-                                        <select>
+                                        <select id="taskStatus">
                                             ${this.generateOptions(this.estados)}
                                         </select>
                                     </div>
@@ -69,14 +72,14 @@ class CreateTask {
                             <div class="field">
                                 <label class="label">Fecha límite</label>
                                 <div class="control">
-                                    <input class="input" type="date">
+                                    <input class="input" type="date" id="taskDueDate">
                                 </div>
                             </div>
                         </form>
                     </section>
                     <footer class="modal-card-foot">
                         <div class="field is-grouped">
-                            <div class="control">
+                            <div class="control" id="saveButton">
                                 <button class="button is-link">Guardar</button>
                             </div>
                             <div class="control">
@@ -88,4 +91,44 @@ class CreateTask {
             </div>
         `;
     }
+
+    saveTask() {
+        const title = document.querySelector('#taskTitle').value;
+        const description = document.querySelector('#taskDesc').value;
+        const assigned = document.querySelector('#taskAssigned').value;
+        const priority = document.querySelector('#taskPriority').value;
+        const status = document.querySelector('#taskStatus').value;
+        let dueDate = document.querySelector('#taskDueDate').value;
+        if (!dueDate) {
+            const today = new Date();
+            today.setDate(today.getDate() + 7);
+            dueDate = today.toISOString().slice(0, 10);
+        }
+        const task = new Task(title, description, assigned, priority, status, new Date().toISOString().slice(0, 10), dueDate);
+        let backLog = document.getElementById('backlog');
+        let toDo = document.getElementById('toDo');
+        let inProgress = document.getElementById('inProgress');
+        let blocked = document.getElementById('blocked');
+        let done = document.getElementById('done');
+        switch (task.status) {
+            case 'Backlog':
+                backLog.innerHTML += task.toHTML();
+                break;
+            case 'To Do':
+                toDo.innerHTML += task.toHTML();
+                break;
+            case 'In Progress':
+                inProgress.innerHTML += task.toHTML();
+                break;
+            case 'Blocked':
+                blocked.innerHTML += task.toHTML();
+                break;
+            case 'Done':
+                done.innerHTML += task.toHTML();
+                break;
+            default:
+                break;
+        }
+    }
+
 }
