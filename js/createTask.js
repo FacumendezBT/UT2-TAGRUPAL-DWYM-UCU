@@ -11,7 +11,7 @@ class CreateTask {
 
     toHTML() {
         return `
-            <div class="modal"> 
+            <div class="modal">
                 <div class="modal-background"></div>
                 <div class="modal-card">
                     <header class="modal-card-head">
@@ -98,7 +98,7 @@ class CreateTask {
         const assigned = document.querySelector('#taskAssigned').value;
         const priority = document.querySelector('#taskPriority').value;
         const status = document.querySelector('#taskStatus').value;
-        let dueDate = document.querySelector('#taskDueDate').value;
+        const dueDate = document.querySelector('#taskDueDate').value;
         if (!dueDate) {
             const today = new Date();
             today.setDate(today.getDate() + 7);
@@ -129,6 +129,9 @@ class CreateTask {
             default:
                 break;
         }
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.push(task);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
     }
 
 }

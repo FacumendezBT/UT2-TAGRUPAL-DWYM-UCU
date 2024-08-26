@@ -20,7 +20,7 @@ class Task {
     }
     toHTML() {
         return `
-            <div class="card">
+            <div class="card" draggable="true" ondragstart="onDragStart(event)">
                 <div class="card-content">
                     <div class="content">
                         <div class="mb-5 is-flex is-align-items-center">

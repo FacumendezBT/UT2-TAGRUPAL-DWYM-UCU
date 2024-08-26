@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function initilizeTasks() {
-    let tasks = [];
+    let tasks = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : [];
 
     // Borrar esto, son solo datos de prueba
     for (let i = 0; i < 3; i++) {
