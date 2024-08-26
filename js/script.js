@@ -34,16 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function initilizeTasks() {
     let tasks = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : [];
 
-    // Borrar esto, son solo datos de prueba
-    for (let i = 0; i < 3; i++) {
-        let task = new Task(`Crear tarea ${i}`, `Descripción de la tarea ${i}`, 'John Doe', 'Alta', 'Backlog', '2021-09-30', '2021-10-12');
-        tasks.push(task);
-    }
-    for (let i = 0; i < 5; i++) {
-        let task = new Task(`Crear tarea 2 ${i}`, `Descripción de la tarea ${i}`, 'John Doe', 'Alta', 'To Do', '2021-09-30', '2021-10-12');
-        tasks.push(task);
-    }
-    
     let backLog = document.getElementById('backlog');
     let toDo = document.getElementById('toDo');
     let inProgress = document.getElementById('inProgress');
@@ -51,21 +41,22 @@ function initilizeTasks() {
     let done = document.getElementById('done');
 
     tasks.forEach(task => {
-        switch (task.status) {
+        const taskObj = new Task(task.title, task.description, task.assignedTo, task.priority, task.status, task.createdAt, task.dueDate);
+        switch (taskObj.status) {
             case 'Backlog':
-                backLog.innerHTML += task.toHTML();
+                backLog.innerHTML += taskObj.toHTML();
                 break;
             case 'To Do':
-                toDo.innerHTML += task.toHTML();
+                toDo.innerHTML += taskObj.toHTML();
                 break;
             case 'In Progress':
-                inProgress.innerHTML += task.toHTML();
+                inProgress.innerHTML += taskObj.toHTML();
                 break;
             case 'Blocked':
-                blocked.innerHTML += task.toHTML();
+                blocked.innerHTML += taskObj.toHTML();
                 break;
             case 'Done':
-                done.innerHTML += task.toHTML();
+                done.innerHTML += taskObj.toHTML();
                 break;
             default:
                 break;

@@ -98,7 +98,7 @@ class CreateTask {
         const assigned = document.querySelector('#taskAssigned').value;
         const priority = document.querySelector('#taskPriority').value;
         const status = document.querySelector('#taskStatus').value;
-        const dueDate = document.querySelector('#taskDueDate').value;
+        let dueDate = document.querySelector('#taskDueDate').value;
         if (!dueDate) {
             const today = new Date();
             today.setDate(today.getDate() + 7);
