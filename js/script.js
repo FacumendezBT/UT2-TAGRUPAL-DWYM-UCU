@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.modal').classList.add('is-active');
     });
 
-    document.getElementById("cancel-button").addEventListener('click', () => {
+    document.getElementById("cancelButton").addEventListener('click', () => {
         taskModal.cancelTask();
         document.querySelector('.modal').classList.remove('is-active');
     });
