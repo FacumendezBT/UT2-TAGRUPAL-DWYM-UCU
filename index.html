@@ -8,33 +8,33 @@
     </head>
     <body>
         <div class="container">
-            <h1 class="title is-4 has-text-centered">Gestor de tareas</h3>
+            <p class="title is-4 has-text-start">Gestor de tareas</p>
             <div class="buttons level-right">
                 <button id="darkModeToggle" class="button is-light"> 🌙 </button>
                 <button id="newTask" class="button is-primary">+</button>
             </div>
             <div class="columns taskSuper">
-                <div class="column taskColumn" id="backlog">
-                    <h3 class="title is-6">Backlog</h2>
-                        <div class="taskBody" ondragover="onDragOver(event);">
+                <div class="column taskColumn" id="backlog" ondragover="onDragOver(event);" ondrop="onDrop(event);">
+                    <p class="title is-6 has-text-start">Backlog</p>
+                        <div class="taskBody">
                         </div>
                 </div>
-                <div class="column taskColumn" id="toDo">
-                    <h3 class="title is-6">To Do</h2>
-                        <div class="taskBody" ondragover="onDragOver(event);">
+                <div class="column taskColumn" id="toDo" ondragover="onDragOver(event);" ondrop="onDrop(event);">
+                    <p class="title is-6">To Do</p>
+                        <div class="taskBody">
                         </div>
                 </div>
-                <div class="column taskColumn" id="inProgress">
-                    <h3 class="title is-6">In Progress</h2>
-                        <div class="taskBody" ondragover="onDragOver(event);"></div>
+                <div class="column taskColumn" id="inProgress" ondragover="onDragOver(event);" ondrop="onDrop(event);">
+                    <p class="title is-6 has-text-start">In Progress</p>
+                        <div class="taskBody"></div>
                 </div>
-                <div class="column taskColumn" id="blocked">
-                    <h3 class="title is-6">Blocked</h2>
-                        <div class="taskBody" ondragover="onDragOver(event);"></div>    
+                <div class="column taskColumn" id="blocked" ondragover="onDragOver(event);" ondrop="onDrop(event);">
+                    <p class="title is-6 has-text-start">Blocked</p>
+                        <div class="taskBody"></div>    
                 </div>
-                <div class="column taskColumn" id="done">
-                    <h3 class="title is-6">Done</h2>
-                        <div class="taskBody" ondragover="onDragOver(event);"></div>
+                <div class="column taskColumn" id="done" ondragover="onDragOver(event);" ondrop="onDrop(event);">
+                    <p class="title is-6 has-text-start">Done</p>
+                        <div class="taskBody"></div>
                 </div>
             </div>
             <div id="modal-container"></div>

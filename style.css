@@ -96,6 +96,14 @@ body {
     align-items: center;
 }
 
+body > .container {
+    border-radius: 30px;
+    margin: 30px;
+    padding: 20px !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
 .box {
     background-color: var(--scheme-main-bis);
 }
@@ -133,14 +141,13 @@ h1{
     }
 }
 
-.has-background-primary-light{
-    background-color: var(--bulma-scheme-h) !important;
+@media (max-width: 767px){
+    body > .container {
+        margin: 0px !important;
+        border-radius: 0px;
+    }
 }
 
-body > .container {
-    border-radius: 30px;
-    margin: 30px !important;
-    padding: 10px !important;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    width: auto;
+.has-background-primary-light{
+    background-color: var(--bulma-scheme-h) !important;
 }
