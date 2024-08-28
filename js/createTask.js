@@ -81,6 +81,7 @@ class CreateTask {
                             <div class="control" id="saveButton">
                                 <button class="button is-link">Guardar</button>
                             </div>
+                            
                     </footer>
                 </div>
             </div>
