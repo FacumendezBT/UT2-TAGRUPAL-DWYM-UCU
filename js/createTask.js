@@ -16,6 +16,7 @@ class CreateTask {
                 <div class="modal-card">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Crear tarea</p>
+                        <button class="delete" aria-label="close" id="cancelButton"></button>
                     </header>
                     <section class="modal-card-body">
                         <form>
@@ -80,6 +81,7 @@ class CreateTask {
                             <div class="control" id="saveButton">
                                 <button class="button is-link">Guardar</button>
                             </div>
+                            
                     </footer>
                 </div>
             </div>
