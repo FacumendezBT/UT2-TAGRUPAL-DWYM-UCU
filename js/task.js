@@ -7,9 +7,10 @@
  * @param {string} status - Estado de la tarea.
  * @param {string} createdAt - Fecha de creación de la tarea.
  * @param {string} dueDate - Fecha límite de la tarea.
+ * @param {string} uniqueId - Id unica de la tarea
  */
 class Task {
-    constructor(title, description, assignedTo, priority, status, createdAt, dueDate) {
+    constructor(title, description, assignedTo, priority, status, createdAt, dueDate, id) {
         this.title = title;
         this.description = description;
         this.assignedTo = assignedTo;
@@ -17,10 +18,11 @@ class Task {
         this.status = status;
         this.createdAt = createdAt;
         this.dueDate = dueDate;
+        this.id = id;
     }
     toHTML() {
         return `
-            <div class="card" draggable="true" ondragstart="onDragStart(event)">
+            <div id="${this.id}"  class="card" draggable="true" ondragstart="onDragStart(event)">
                 <div class="card-content">
                     <div class="content">
                         <div class="mb-5 is-flex is-align-items-center">
