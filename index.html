@@ -8,10 +8,13 @@
     </head>
     <body>
         <div class="container">
-            <p class="title is-4 has-text-start">Gestor de tareas</p>
+            <div id="header">
+                <p class="title is-4 has-text-start">Gestor de tareas</p>
+                <button id="newTask" class="button is-primary">Agregar tarea</button>
+            </div>
             <div class="buttons level-right">
                 <button id="darkModeToggle" class="button is-light"> 🌙 </button>
-                <button id="newTask" class="button is-primary">+</button>
+                <button id="newTaskMini" class="button is-primary">+</button>
             </div>
             <div class="columns taskSuper">
                 <div class="column taskColumn" id="backlog" ondragover="onDragOver(event);" ondrop="onDrop(event);">
@@ -38,7 +41,9 @@
                 </div>
             </div>
             <div id="modal-container"></div>
+            <div id="modal-container-edit"></div>
         </div>
+        <script src="js/editTask.js"></script>
         <script src="js/createTask.js"></script>
         <script src="js/task.js"></script>
         <script src="js/script.js"></script>

@@ -22,7 +22,7 @@ class Task {
     }
     toHTML() {
         return `
-            <div id="${this.id}"  class="card" draggable="true" ondragstart="onDragStart(event)">
+            <div id="${this.id}"  class="card task" draggable="true" ondragstart="onDragStart(event)" onclick="editTaskModal.loadTask(this)">
                 <div class="card-content">
                     <div class="content">
                         <div class="mb-5 is-flex is-align-items-center">

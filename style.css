@@ -64,12 +64,13 @@
 
 .taskSuper {
     overflow: auto;
+    height: auto;
 }
 
 .taskColumn {
     min-width: 350px;
-    min-height: 500px;
-    height: 200%;
+    min-height: 800px;
+    height: auto;
     text-align: center;
     background-color: var(--taskcolumn-bg);
     border-radius: 20px;
@@ -100,6 +101,7 @@ body > .container {
     border-radius: 30px;
     margin: 30px;
     padding: 20px !important;
+    padding-top: 10px !important;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     width: 100%;
 }
@@ -150,6 +152,12 @@ h1{
         margin: 0px !important;
         border-radius: 0px;
     }
+    #newTask {
+        display: none !important;
+    }
+    #newTaskMini {
+        display: flex !important;
+    }
 }
 
 @media (min-width: 1024px){
@@ -160,4 +168,19 @@ h1{
 
 .has-background-primary-light{
     background-color: var(--bulma-scheme-h) !important;
+}
+
+#header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+#header > p{
+    margin: 0px;
+}
+
+#newTaskMini{
+    display: none;
 }

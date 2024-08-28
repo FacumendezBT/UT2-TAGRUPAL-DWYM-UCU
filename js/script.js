@@ -1,5 +1,7 @@
+let editTaskModal;
+let tasks = [];
+
 document.addEventListener('DOMContentLoaded', () => {
-    let tasks = [];
 
     initilizeTasks();
 
@@ -10,19 +12,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Crear una instancia de TaskModal
     const taskModal = new CreateTask(personas, prioridades, estados);
 
-    // Generar el HTML del modal
+    // Crear una instancia de EditTask
+    editTaskModal = new EditTask(personas, prioridades, estados);
+
     const modalHTML = taskModal.toHTML();
+    const editModalHTML = editTaskModal.toHTML();
+
 
     // Insertar el HTML del modal en el documento
     document.getElementById('modal-container').innerHTML = modalHTML;
+    document.getElementById('modal-container-edit').innerHTML = editModalHTML;
 
     document.getElementById("newTask").addEventListener('click', () => {
         document.querySelector('.modal').classList.add('is-active');
     });
-
-    document.getElementById("cancelButton").addEventListener('click', () => {
-        taskModal.cancelTask();
-        document.querySelector('.modal').classList.remove('is-active');
+    document.getElementById("newTaskMini").addEventListener('click', () => {
+        document.querySelector('.modal').classList.add('is-active');
     });
 
     document.getElementById("saveButton").addEventListener('click', () => {
@@ -44,7 +49,7 @@ function initilizeTasks() {
     let done = document.getElementById('done');
 
     tasks.forEach(task => {
-        const taskObj = new Task(task.title, task.description, task.assignedTo, task.priority, task.status, task.createdAt, task.dueDate);
+        const taskObj = new Task(task.title, task.description, task.assignedTo, task.priority, task.status, task.createdAt, task.dueDate, task.id);
         switch (taskObj.status) {
             case 'Backlog':
                 backLog.innerHTML += taskObj.toHTML();
