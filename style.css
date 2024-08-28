@@ -139,6 +139,10 @@ h1{
         flex-wrap: wrap; 
         justify-content: flex-start;
     }
+    .taskColumn {
+        min-width: 250px;
+        min-height: 500px;
+    }
 }
 
 @media (max-width: 767px){
