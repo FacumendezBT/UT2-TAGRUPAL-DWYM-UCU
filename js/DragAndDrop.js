@@ -17,20 +17,24 @@ function onDrop(event) {
 
     const dropzone = event.target;
 
-    dropzone.appendChild(draggableElement);
+    if (dropzone.classList.contains('taskColumn')) {
 
-    let tasks = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : [];
+      dropzone.appendChild(draggableElement);
 
-    tasks.forEach(task => {
-        if (task.id === id) {
-            task.status = dropzone.id;
-        }
-    });
+      let tasks = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : [];
 
-    // Actualiza el array de tareas en localStorage
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+      tasks.forEach(task => {
+          if (task.id === id) {
+              task.status = dropzone.id;
+          }
+      });
 
-    event
-    .dataTransfer
-    .clearData();
+      // Actualiza el array de tareas en localStorage
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+
+      event
+      .dataTransfer
+      .clearData();
+
+  }
 }
