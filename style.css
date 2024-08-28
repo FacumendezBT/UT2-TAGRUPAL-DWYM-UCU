@@ -69,10 +69,11 @@
 .taskColumn {
     min-width: 350px;
     min-height: 500px;
+    height: 100%;
     text-align: center;
     background-color: var(--taskcolumn-bg);
     border-radius: 20px;
-    margin: 20px;
+    margin: 10px;
 }
 
 .buttons {
@@ -84,9 +85,15 @@
 }
 
 body {
+    overflow: hidden;
     background-color: var(--scheme-main);
     color: var(--text);
     font-family: "Raleway", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .box {
@@ -124,4 +131,16 @@ h1{
         flex-wrap: wrap; 
         justify-content: flex-start;
     }
+}
+
+.has-background-primary-light{
+    background-color: var(--bulma-scheme-h) !important;
+}
+
+body > .container {
+    border-radius: 30px;
+    margin: 30px !important;
+    padding: 10px !important;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    width: auto;
 }
