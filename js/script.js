@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById("cancelButton").addEventListener('click', () => {
+        taskModal.cancelTask();
         document.querySelector('.modal').classList.remove('is-active');
     });
 
@@ -28,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
         taskModal.saveTask();
         document.querySelector('.modal').classList.remove('is-active');
     });
+    document.querySelector('#taskTitle').addEventListener('input', () => taskModal.validateTask());
+    document.querySelector('#taskDesc').addEventListener('input', () => taskModal.validateTask());
 });
 
 

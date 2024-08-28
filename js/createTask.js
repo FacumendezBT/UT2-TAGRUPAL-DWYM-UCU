@@ -25,15 +25,15 @@ class CreateTask {
                                 <label class="label">Título</label>
                                 <div class="control">
                                     <input class="input"  type="text" placeholder="Título de la tarea" id="taskTitle">
-                                    <p class="help is-danger is-hidden">El título no puede estar vacío</p>
                                 </div>
+                                <p id="titleError" class="help is-danger" style="display: none;">Debe ingresar un título.</p>
                             </div>
                             <div class="field">
                                 <label class="label">Descripción</label>
                                 <div class="control">
                                     <textarea class="textarea" placeholder="Descripción de la tarea" id="taskDesc"></textarea>
-                                    <p class="help is-danger is-hidden">Debe insertar una descripción</p>
                                 </div>
+                                <p id="descriptionError" class="help is-danger" style="display: none;">Debe ingresar una descripción. </p>
                             </div>
 
                             <div class="field">
@@ -82,17 +82,40 @@ class CreateTask {
                             <div class="control" id="saveButton">
                                 <button class="button is-link">Guardar</button>
                             </div>
-                            <div class="control">
-                                <button class="button is-link is-light" id="cancel-button">Cancelar</button>
-                            </div>
-                        </div>
                     </footer>
                 </div>
             </div>
         `;
     }
 
+    validateTask() {
+        const title = document.querySelector('#taskTitle').value.trim();
+        const description = document.querySelector('#taskDesc').value.trim();
+        
+        let isValid = true;
+        
+        if (title === '') {
+            document.getElementById('titleError').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('titleError').style.display = 'none';
+        }
+        
+        if (description === '') {
+            document.getElementById('descriptionError').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('descriptionError').style.display = 'none';
+        }
+        
+        document.querySelector('#saveButton button').disabled = !isValid;
+        return isValid;
+    }
+    
+
     saveTask() {
+        if (!this.validateTask()) return;
+
         const title = document.querySelector('#taskTitle').value;
         const description = document.querySelector('#taskDesc').value;
         const assigned = document.querySelector('#taskAssigned').value;
@@ -134,5 +157,14 @@ class CreateTask {
         tasks.push(task);
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }
-
+    cancelTask() {
+        document.querySelector('#taskTitle').value = '';
+        document.querySelector('#taskDesc').value = '';
+        document.querySelector('#taskAssigned').selectedIndex = 0;
+        document.querySelector('#taskPriority').selectedIndex = 0;
+        document.querySelector('#taskStatus').selectedIndex = 0;
+        document.querySelector('#taskDueDate').value = '';
+        document.getElementById('titleError').style.display = 'none';
+        document.getElementById('descriptionError').style.display = 'none';
+    }
 }
