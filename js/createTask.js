@@ -122,12 +122,13 @@ class CreateTask {
         const priority = document.querySelector('#taskPriority').value;
         const status = document.querySelector('#taskStatus').value;
         let dueDate = document.querySelector('#taskDueDate').value;
+        const uniqueId = `task-${Math.random().toString(36).substr(2, 9)}`
         if (!dueDate) {
             const today = new Date();
             today.setDate(today.getDate() + 7);
             dueDate = today.toISOString().slice(0, 10);
         }
-        const task = new Task(title, description, assigned, priority, status, new Date().toISOString().slice(0, 10), dueDate);
+        const task = new Task(title, description, assigned, priority, status, new Date().toISOString().slice(0, 10), dueDate, uniqueId);
         let backLog = document.getElementById('backlog');
         let toDo = document.getElementById('toDo');
         let inProgress = document.getElementById('inProgress');
