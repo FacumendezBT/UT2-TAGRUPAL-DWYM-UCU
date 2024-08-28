@@ -124,12 +124,16 @@ h1{
 }
 
 
-@media ((min-width: 768px) and (max-width: 1023px)){
+@media (min-width: 767px) and (max-width: 1023px){
     .taskSuper {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap; 
         justify-content: flex-start;
+    }
+    .taskColumn {
+        min-width: 250px;
+        min-height: 500px;
     }
 }
 
