@@ -7,7 +7,7 @@
  * @param {string} status - Estado de la tarea.
  * @param {string} createdAt - Fecha de creación de la tarea.
  * @param {string} dueDate - Fecha límite de la tarea.
- * @param {string} uniqueId - Id unica de la tarea
+ * @param {string} id - Id unica de la tarea
  */
 class Task {
     constructor(title, description, assignedTo, priority, status, createdAt, dueDate, id) {
