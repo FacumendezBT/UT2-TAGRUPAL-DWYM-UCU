@@ -45,6 +45,7 @@
     --primary: hsl(171, 100%, 41%);
     --primary-light: hsl(171, 100%, 15%);
     --taskcolumn-bg: var(--scheme-main-bis);
+    --bulma-label-color: hsl(0, 0%, 71%);
 }
 
 [data-theme="light"],
@@ -60,6 +61,7 @@
     --primary: hsl(171, 100%, 41%);
     --primary-light: hsl(171, 100%, 96%);
     --taskcolumn-bg: var(--scheme-main-ter);
+    --bulma-label-color: hsl(0, 0%, 29%);
 }
 
 .taskSuper {
@@ -68,15 +70,21 @@
     display: flex !important;
     flex-grow: 1;
     flex-direction: column;
+    margin: 0px;
+    gap: 10px;
 }
 
 .taskColumn {
     min-width: 350px;
-    min-height: 500px;
+    min-height: 800px;
     text-align: center;
     background-color: var(--taskcolumn-bg);
     border-radius: 20px;
-    margin: 10px;
+    overflow: auto;
+}
+
+.modal-card-foot{
+    justify-content: end;
 }
 
 .buttons {
@@ -137,6 +145,16 @@ h1{
     color: #fff;
 }
 
+#newTaskMini {
+    display: flex;
+    font-size: 20px;
+    border-radius: 30px;
+}
+#newTask {
+    display: none;
+    border-radius: 30px;
+}
+
 
 @media ((min-width: 768px) and (max-width: 1023px)){
     .taskSuper {
@@ -156,12 +174,6 @@ h1{
         margin: 0px !important;
         border-radius: 0px;
     }
-    #newTask {
-        display: none !important;
-    }
-    #newTaskMini {
-        display: flex !important;
-    }
 }
 
 @media (min-width: 1024px){
@@ -170,6 +182,12 @@ h1{
     }
     .taskSuper {
         flex-direction: row;
+    }
+    #newTask{
+        display: flex !important;
+    }
+    #newTaskMini{
+        display: none !important;
     }
 }
 
@@ -186,8 +204,4 @@ h1{
 }
 #header > p{
     margin: 0px;
-}
-
-#newTaskMini{
-    display: none;
 }

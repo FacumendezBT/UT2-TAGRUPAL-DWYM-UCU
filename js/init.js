@@ -1,4 +1,4 @@
-let editTaskModal;
+let taskModal;
 let tasks = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,36 +7,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const personas = ["Persona 1", "Persona 2", "Persona 3", "Persona 4", "Persona 5"];
     const prioridades = ["Alta", "Media", "Baja"];
-    const estados = ["Backlog", "To Do", "In Progress", "Blocked", "Done"];
+    const estados = ["backlog", "toDo", "inProgress", "blocked", "done"];
 
-    // Crear una instancia de TaskModal
-    const taskModal = new CreateTask(personas, prioridades, estados);
+    taskModal = new CreateTask(personas, prioridades, estados);
 
-    // Crear una instancia de EditTask
-    editTaskModal = new EditTask(personas, prioridades, estados);
-
-    const modalHTML = taskModal.toHTML();
-    const editModalHTML = editTaskModal.toHTML();
-
-
-    // Insertar el HTML del modal en el documento
-    document.getElementById('modal-container').innerHTML = modalHTML;
-    document.getElementById('modal-container-edit').innerHTML = editModalHTML;
+    document.getElementById('modal-container').innerHTML = taskModal.toHTML();
 
     document.getElementById("newTask").addEventListener('click', () => {
-        document.querySelector('.modal').classList.add('is-active');
+        taskModal.openModal();
     });
     document.getElementById("newTaskMini").addEventListener('click', () => {
-        document.querySelector('.modal').classList.add('is-active');
+        taskModal.openModal();
     });
 
     document.getElementById("saveButton").addEventListener('click', () => {
         taskModal.saveTask();
-        document.querySelector('.modal').classList.remove('is-active');
+        document.querySelector('#modal-container .modal').classList.remove('is-active');
     });
     document.getElementById("cancelButton").addEventListener('click', () => {
         taskModal.cancelTask();
-        document.querySelector('.modal').classList.remove('is-active');
+        document.querySelector('#modal-container .modal').classList.remove('is-active');
     });
     document.querySelector('#taskTitle').addEventListener('input', () => taskModal.validateTask());
     document.querySelector('#taskDesc').addEventListener('input', () => taskModal.validateTask());
@@ -55,19 +45,19 @@ function initilizeTasks() {
     tasks.forEach(task => {
         const taskObj = new Task(task.title, task.description, task.assignedTo, task.priority, task.status, task.createdAt, task.dueDate, task.id);
         switch (taskObj.status) {
-            case 'Backlog':
+            case 'backlog':
                 backLog.innerHTML += taskObj.toHTML();
                 break;
-            case 'To Do':
+            case 'toDo':
                 toDo.innerHTML += taskObj.toHTML();
                 break;
-            case 'In Progress':
+            case 'inProgress':
                 inProgress.innerHTML += taskObj.toHTML();
                 break;
-            case 'Blocked':
+            case 'blocked':
                 blocked.innerHTML += taskObj.toHTML();
                 break;
-            case 'Done':
+            case 'done':
                 done.innerHTML += taskObj.toHTML();
                 break;
             default:

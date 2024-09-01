@@ -3,6 +3,8 @@ class CreateTask {
         this.personas = personas;
         this.prioridades = prioridades;
         this.estados = estados;
+        this.editing = false;
+        this.task = null;
     }
 
     generateOptions(options) {
@@ -15,7 +17,7 @@ class CreateTask {
                 <div class="modal-background"></div>
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Crear tarea</p>
+                        <p class="modal-card-title has-text-weight-semibold">Creación de tarea</p>
                         <button class="delete" aria-label="close" id="cancelButton"></button>
                     </header>
                     <section class="modal-card-body">
@@ -77,15 +79,19 @@ class CreateTask {
                         </form>
                     </section>
                     <footer class="modal-card-foot">
-                        <div class="field is-grouped">
-                            <div class="control" id="saveButton">
-                                <button class="button is-link">Guardar</button>
+                        <div class="control" id="saveButton">
+                                <button class="button is-primary" disabled>Crear tarea</button>
                             </div>
-                            
                     </footer>
                 </div>
             </div>
         `;
+    }
+    
+    openModal() {
+        document.querySelector('.modal-card-title').textContent = 'Creación de tarea';
+        document.querySelector('#saveButton button').textContent = 'Crear tarea';
+        document.querySelector('#modal-container .modal').classList.add('is-active');
     }
 
     validateTask() {
@@ -96,25 +102,53 @@ class CreateTask {
         
         if (title === '') {
             document.getElementById('titleError').style.display = 'block';
+            document.querySelector('#taskTitle').classList.add('is-danger');
             isValid = false;
         } else {
             document.getElementById('titleError').style.display = 'none';
+            document.querySelector('#taskTitle').classList.remove('is-danger');
         }
         
         if (description === '') {
             document.getElementById('descriptionError').style.display = 'block';
+            document.querySelector('#taskDesc').classList.add('is-danger');
             isValid = false;
         } else {
             document.getElementById('descriptionError').style.display = 'none';
+            document.querySelector('#taskDesc').classList.remove('is-danger');
         }
         
         document.querySelector('#saveButton button').disabled = !isValid;
         return isValid;
     }
-    
+    loadTask(task) {
+        const currentTask = JSON.parse(localStorage.getItem('tasks')).find(t => t.id === task.id);
+        this.editing = true;
+        this.task = task;
+        document.querySelector('#taskTitle').value = currentTask.title;
+        document.querySelector('#taskDesc').value = currentTask.description;
+        document.querySelector('#taskAssigned').value = currentTask.assignedTo;
+        document.querySelector('#taskPriority').value = currentTask.priority;
+        document.querySelector('#taskStatus').value = currentTask.status;
+        document.querySelector('#taskDueDate').value = currentTask.dueDate;
+        document.querySelector('.modal-card-title').textContent = 'Editar tarea';
+        document.querySelector('#saveButton button').textContent = 'Guardar cambios';
+        document.querySelector('#saveButton button').disabled = false;
+        document.querySelector('#modal-container .modal').classList.add('is-active');
+    }
 
     saveTask() {
         if (!this.validateTask()) return;
+
+        // Elimina la tarea actual si se está editando para que no se duplique.
+        if(this.editing) {
+            document.getElementById(this.task.id).remove();
+            let tasks = JSON.parse(localStorage.getItem('tasks'));
+            tasks = tasks.filter(t => t.id !== this.task.id);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            this.editing = false;
+            this.task = null;
+        }
 
         const title = document.querySelector('#taskTitle').value;
         const description = document.querySelector('#taskDesc').value;
@@ -135,19 +169,19 @@ class CreateTask {
         let blocked = document.getElementById('blocked');
         let done = document.getElementById('done');
         switch (task.status) {
-            case 'Backlog':
+            case 'backlog':
                 backLog.innerHTML += task.toHTML();
                 break;
-            case 'To Do':
+            case 'toDo':
                 toDo.innerHTML += task.toHTML();
                 break;
-            case 'In Progress':
+            case 'inProgress':
                 inProgress.innerHTML += task.toHTML();
                 break;
-            case 'Blocked':
+            case 'blocked':
                 blocked.innerHTML += task.toHTML();
                 break;
-            case 'Done':
+            case 'done':
                 done.innerHTML += task.toHTML();
                 break;
             default:
@@ -157,8 +191,8 @@ class CreateTask {
         tasks.push(task);
         localStorage.setItem('tasks', JSON.stringify(tasks));
 
-         // Limpia los campos después de guardar la tarea
-         this.cancelTask();
+        // Limpia los campos después de guardar la tarea
+        this.cancelTask();
     }
     cancelTask() {
         document.querySelector('#taskTitle').value = '';
@@ -169,5 +203,8 @@ class CreateTask {
         document.querySelector('#taskDueDate').value = '';
         document.getElementById('titleError').style.display = 'none';
         document.getElementById('descriptionError').style.display = 'none';
+        document.querySelector('#taskTitle').classList.remove('is-danger');
+        document.querySelector('#taskDesc').classList.remove('is-danger');
+        document.querySelector('#saveButton button').disabled = true;
     }
 }

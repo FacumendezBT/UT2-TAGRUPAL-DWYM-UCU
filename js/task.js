@@ -22,12 +22,12 @@ class Task {
     }
     toHTML() {
         return `
-            <div id="${this.id}"  class="card task" draggable="true" ondragstart="onDragStart(event)" onclick="editTaskModal.loadTask(this)">
+            <div id="${this.id}"  class="card task" draggable="true" ondragstart="onDragStart(event)" onclick="taskModal.loadTask(this)">
                 <div class="card-content">
                     <div class="content">
                         <div class="mb-5 is-flex is-align-items-center">
                         <div class="ml-0">
-                            <p class="title is-5">${this.title}</p>
+                            <p class="title is-5 has-text-weight-semibold">${this.title}</p>
                         </div>
                         </div>
                         <div>
@@ -45,9 +45,7 @@ class Task {
                         </div>
                         <div class="content mb-5 is-flex is-justify-content-space-between is-align-items-center">
                             <h4 class="mb-0 has-text-weight-normal" style="font-size: 13px;">Asignado</h4>
-                            <div class="is-flex is-align-items-center">
-                                <img class="image is-32x32 is-cover" style="border-radius: 50% !important;" src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;crop=faces&amp;fit=crop&amp;h=128&amp;w=128" alt="alt" data-config-id="image2-1" data-path="0.0.0.1.0.0.0.1.2.0.0">
-                            </div>
+                            <span class="tag is-light">${this.assignedTo}</span>
                         </div>
                         <div class="mb-3 pt-1 is-relative has-background-primary-light">
                             <div class="has-background-warning" style="position: absolute; top: 0; left: 0; width: ${this.calculateProgress(this.createdAt, this.dueDate)}%; height: 100%"></div>
@@ -87,15 +85,15 @@ class Task {
      */
     textState(status) {
         switch (status) {
-            case 'Backlog':
+            case 'backlog':
                 return 'La tarea está en el backlog';
-            case 'To Do':
+            case 'toDo':
                 return 'La tarea está en proceso';
-            case 'In Progress':
+            case 'inProgress':
                 return 'La tarea está en progreso';
-            case 'Blocked':
+            case 'blocked':
                 return 'La tarea está bloqueada';
-            case 'Done':
+            case 'done':
                 return 'La tarea está completada';
             default:
                 return 'No se ha definido el estado de la tarea';
@@ -138,13 +136,13 @@ class Task {
      * @param {*} due - Fecha límite de la tarea.
      */
     calculateProgress(created, due) {
-        if (this.status === 'Backlog' || this.status === 'To Do') {
+        if (this.status === 'backlog' || this.status === 'toDo') {
             return 0;
-        } else if (this.status === 'In Progress') {
+        } else if (this.status === 'inProgress') {
             return 50;
-        } else if (this.status === 'Blocked') {
+        } else if (this.status === 'blocked') {
             return 75;
-        } else if (this.status === 'Done') {
+        } else if (this.status === 'done') {
             return 100;
         }
     }
