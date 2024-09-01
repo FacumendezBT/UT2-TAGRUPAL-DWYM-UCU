@@ -156,6 +156,9 @@ class CreateTask {
         let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         tasks.push(task);
         localStorage.setItem('tasks', JSON.stringify(tasks));
+
+         // Limpia los campos después de guardar la tarea
+         this.cancelTask();
     }
     cancelTask() {
         document.querySelector('#taskTitle').value = '';
