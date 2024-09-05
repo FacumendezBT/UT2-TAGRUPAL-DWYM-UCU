@@ -5,19 +5,19 @@
  * @param {string} assignedTo - Nombre de la persona asignada a la tarea.
  * @param {string} priority - Prioridad de la tarea.
  * @param {string} status - Estado de la tarea.
- * @param {string} createdAt - Fecha de creación de la tarea.
- * @param {string} dueDate - Fecha límite de la tarea.
+ * @param {string} startDate - Fecha de creación de la tarea.
+ * @param {string} endDate - Fecha límite de la tarea.
  * @param {string} id - Id unica de la tarea
  */
 class Task {
-    constructor(title, description, assignedTo, priority, status, createdAt, dueDate, id) {
+    constructor(title, description, assignedTo, priority, status, startDate, endDate, id) {
         this.title = title;
         this.description = description;
         this.assignedTo = assignedTo;
         this.priority = priority;
         this.status = status;
-        this.createdAt = createdAt;
-        this.dueDate = dueDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.id = id;
     }
     toHTML() {
@@ -33,7 +33,7 @@ class Task {
                         <div>
                         <div class="content mb-2 is-flex is-justify-content-space-between is-align-items-center">
                             <h5 class="mb-0 has-text-weight-normal" style="font-size: 13px;">Fecha de inicio</h5>
-                            <span class="tag is-light">${this.createdAt}</span>
+                            <span class="tag is-light">${this.startDate}</span>
                         </div>
                         <div class="content mb-2 is-flex is-justify-content-space-between is-align-items-center">
                             <h4 class="mb-0 has-text-weight-normal" style="font-size: 13px;">Prioridad</h4>
@@ -41,14 +41,14 @@ class Task {
                         </div>
                         <div class="content mb-2 is-flex is-justify-content-space-between is-align-items-center">
                             <h4 class="mb-0 has-text-weight-normal" style="font-size: 13px;">Fecha de fin</h4>
-                            <span class="tag ${this.calculateColorbyDueDate(this.createdAt, this.dueDate)} is-light">${this.dueDate}</span>
+                            <span class="tag ${this.calculateColorbyendDate(this.startDate, this.endDate)} is-light">${this.endDate}</span>
                         </div>
                         <div class="content mb-5 is-flex is-justify-content-space-between is-align-items-center">
                             <h4 class="mb-0 has-text-weight-normal" style="font-size: 13px;">Asignado</h4>
                             <span class="tag is-light">${this.assignedTo}</span>
                         </div>
                         <div class="mb-3 pt-1 is-relative has-background-primary-light">
-                            <div class="has-background-warning" style="position: absolute; top: 0; left: 0; width: ${this.calculateProgress(this.createdAt, this.dueDate)}%; height: 100%"></div>
+                            <div class="has-background-warning" style="position: absolute; top: 0; left: 0; width: ${this.calculateProgress(this.startDate, this.endDate)}%; height: 100%"></div>
                         </div>
                         <div class="is-flex is-align-items-center">
                             <span class="tag is-link is-light mr-2" style="font-size: 12px;" data-config-id="label2">${this.status}</span>
@@ -67,11 +67,11 @@ class Task {
      */
     calculateColorbyPriority(priority) {
         switch (priority) {
-            case 'Alta':
+            case 'High':
                 return 'is-danger';
-            case 'Media':
+            case 'Medium':
                 return 'is-warning';
-            case 'Baja':
+            case 'Low':
                 return 'is-success';
             default:
                 return 'is-light';
@@ -85,15 +85,15 @@ class Task {
      */
     textState(status) {
         switch (status) {
-            case 'backlog':
+            case 'Backlog':
                 return 'La tarea está en el backlog';
-            case 'toDo':
+            case 'To Do':
+                return 'La tarea está por hacer';
+            case 'In Progress':
                 return 'La tarea está en proceso';
-            case 'inProgress':
-                return 'La tarea está en progreso';
-            case 'blocked':
+            case 'Blocked':
                 return 'La tarea está bloqueada';
-            case 'done':
+            case 'Done':
                 return 'La tarea está completada';
             default:
                 return 'No se ha definido el estado de la tarea';
@@ -109,16 +109,16 @@ class Task {
      * @param {*} due - Fecha límite de la tarea.
      * @returns 
      */
-    calculateColorbyDueDate(created, due) {
+    calculateColorbyendDate(created, due) {
         const createdDate = new Date(created);
-        const dueDate = new Date(due);
+        const endDate = new Date(due);
         const currentDate = new Date();
 
-        if (currentDate > dueDate) {
+        if (currentDate > endDate) {
             return 'is-danger';
         }
 
-        const diffTime = dueDate - currentDate;
+        const diffTime = endDate - currentDate;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
         if (diffDays > 7) {
@@ -136,15 +136,31 @@ class Task {
      * @param {*} due - Fecha límite de la tarea.
      */
     calculateProgress(created, due) {
-        if (this.status === 'backlog' || this.status === 'toDo') {
+        if (this.status === 'Backlog' || this.status === 'To Do') {
             return 0;
-        } else if (this.status === 'inProgress') {
+        } else if (this.status === 'In Progress') {
             return 50;
-        } else if (this.status === 'blocked') {
+        } else if (this.status === 'Blocked') {
             return 75;
-        } else if (this.status === 'done') {
+        } else if (this.status === 'Done') {
             return 100;
         }
     }
 
+    /**
+     * Convierte la tarea en un objeto JSON.
+     * @returns {object} - Objeto JSON de la tarea.
+     */
+    toJSON() {
+        return {
+            title: this.title,
+            description: this.description,
+            assignedTo: this.assignedTo,
+            priority: this.priority,
+            status: this.status,
+            startDate: this.startDate,
+            endDate: this.endDate,
+            comments: [],
+        };
+    }
 }

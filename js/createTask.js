@@ -78,10 +78,13 @@ class CreateTask {
                             </div>
                         </form>
                     </section>
-                    <footer class="modal-card-foot">
+                    <footer class="modal-card-foot is-grouped">
+                        <div class="control" id="deleteButton">
+                            <button class="button is-danger" style="display: none;">Eliminar tarea</button>
+                        </div>
                         <div class="control" id="saveButton">
-                                <button class="button is-primary" disabled>Crear tarea</button>
-                            </div>
+                            <button class="button is-primary" disabled>Crear tarea</button>
+                        </div>
                     </footer>
                 </div>
             </div>
@@ -92,6 +95,7 @@ class CreateTask {
         document.querySelector('.modal-card-title').textContent = 'Creación de tarea';
         document.querySelector('#saveButton button').textContent = 'Crear tarea';
         document.querySelector('#modal-container .modal').classList.add('is-active');
+        document.querySelector('#deleteButton button').style.display = 'none';
     }
 
     validateTask() {
@@ -121,10 +125,11 @@ class CreateTask {
         document.querySelector('#saveButton button').disabled = !isValid;
         return isValid;
     }
-    loadTask(task) {
-        const currentTask = JSON.parse(localStorage.getItem('tasks')).find(t => t.id === task.id);
+    loadTask(task, displayModal = true) {
+        const currentTask = tasks.find(t => t.id === task.id);
         this.editing = true;
-        this.task = task;
+        this.task = currentTask;
+        document.querySelector('#deleteButton button').style.display = 'block';
         document.querySelector('#taskTitle').value = currentTask.title;
         document.querySelector('#taskDesc').value = currentTask.description;
         document.querySelector('#taskAssigned').value = currentTask.assignedTo;
@@ -134,21 +139,32 @@ class CreateTask {
         document.querySelector('.modal-card-title').textContent = 'Editar tarea';
         document.querySelector('#saveButton button').textContent = 'Guardar cambios';
         document.querySelector('#saveButton button').disabled = false;
+        if(displayModal)
         document.querySelector('#modal-container .modal').classList.add('is-active');
     }
 
-    saveTask() {
-        if (!this.validateTask()) return;
-
-        // Elimina la tarea actual si se está editando para que no se duplique.
-        if(this.editing) {
-            document.getElementById(this.task.id).remove();
-            let tasks = JSON.parse(localStorage.getItem('tasks'));
-            tasks = tasks.filter(t => t.id !== this.task.id);
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-            this.editing = false;
-            this.task = null;
+    async deleteTask() {
+        const id = this.task.id;
+        try {
+            const response = await fetch(serverUrl + `/${id}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                addNotification('Error al eliminar la tarea', 'danger', 5000);
+                console.error('Error al eliminar la tarea');
+                return null;
+            }
+            addNotification('Tarea eliminada con éxito', 'success', 5000);
+            document.getElementById(id).remove();
+            tasks = tasks.filter(t => t.id !== id);
+        } catch (error) {
+            console.error(error);
+            return null;
         }
+    }
+
+    async saveTask() {
+        if (!this.validateTask()) return;
 
         const title = document.querySelector('#taskTitle').value;
         const description = document.querySelector('#taskDesc').value;
@@ -156,43 +172,73 @@ class CreateTask {
         const priority = document.querySelector('#taskPriority').value;
         const status = document.querySelector('#taskStatus').value;
         let dueDate = document.querySelector('#taskDueDate').value;
-        const uniqueId = `task-${Math.random().toString(36).substr(2, 9)}`
         if (!dueDate) {
             const today = new Date();
             today.setDate(today.getDate() + 7);
             dueDate = today.toISOString().slice(0, 10);
         }
-        const task = new Task(title, description, assigned, priority, status, new Date().toISOString().slice(0, 10), dueDate, uniqueId);
-        let backLog = document.getElementById('backlog');
-        let toDo = document.getElementById('toDo');
-        let inProgress = document.getElementById('inProgress');
-        let blocked = document.getElementById('blocked');
-        let done = document.getElementById('done');
-        switch (task.status) {
-            case 'backlog':
-                backLog.innerHTML += task.toHTML();
-                break;
-            case 'toDo':
-                toDo.innerHTML += task.toHTML();
-                break;
-            case 'inProgress':
-                inProgress.innerHTML += task.toHTML();
-                break;
-            case 'blocked':
-                blocked.innerHTML += task.toHTML();
-                break;
-            case 'done':
-                done.innerHTML += task.toHTML();
-                break;
-            default:
-                break;
-        }
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.push(task);
-        localStorage.setItem('tasks', JSON.stringify(tasks));
 
-        // Limpia los campos después de guardar la tarea
-        this.cancelTask();
+        try {
+            const response = await fetch(serverUrl + (this.editing ? `/${this.task.id}` : ''), {
+                method: this.editing ? 'PUT' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(new Task(title, description, assigned, priority, status, new Date().toISOString().slice(0, 10), dueDate).toJSON())
+            });
+            if (!response.ok) {
+                addNotification('Error al guardar la tarea', 'danger', 5000);
+                console.error('Error al guardar la tarea');
+                return null;
+            }
+            addNotification(`Tarea ${this.editing ? 'actualizada' : 'creada'} con éxito`, 'success', 5000);
+
+            // Agrega la tarea al tablero de tareas
+            const data = await response.json();
+            const task = new Task(data.title, data.description, data.assignedTo, data.priority, data.status, data.startDate, data.endDate, data.id);
+            
+            let backLog = document.getElementById('backlog');
+            let toDo = document.getElementById('toDo');
+            let inProgress = document.getElementById('inProgress');
+            let blocked = document.getElementById('blocked');
+            let done = document.getElementById('done');
+            switch (task.status) {
+                case 'Backlog':
+                    backLog.innerHTML += task.toHTML();
+                    break;
+                case 'To Do':
+                    toDo.innerHTML += task.toHTML();
+                    break;
+                case 'In Progress':
+                    inProgress.innerHTML += task.toHTML();
+                    break;
+                case 'Blocked':
+                    blocked.innerHTML += task.toHTML();
+                    break;
+                case 'Done':
+                    done.innerHTML += task.toHTML();
+                    break;
+                default:
+                    break;
+            }
+
+            // Elimina la tarea actual si se está editando para que no se duplique.
+            if(this.editing) {
+                document.getElementById(this.task.id).remove();
+                tasks = tasks.filter(t => t.id !== this.task.id);
+                this.editing = false;
+                this.task = null;
+            }
+            
+            // Agrega la tarea a la lista de tareas para no tener que ir a buscar siempre al servidor.
+            tasks.push(task);
+
+            // Limpia los campos después de guardar la tarea
+            this.cancelTask();
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
     }
     cancelTask() {
         document.querySelector('#taskTitle').value = '';

@@ -205,3 +205,22 @@ h1{
 #header > p{
     margin: 0px;
 }
+
+#notifications{
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 5px;
+    flex-direction: column;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    z-index: 1200;
+}
+
+#deleteButton button{
+    background-color: hsl(348, 83%, 47%);
+    color: white;
+    margin-right: 10px;
+}
